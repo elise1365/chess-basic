@@ -527,7 +527,7 @@ class _rulesState extends State<rules> {
                         padding: EdgeInsets.all(16.0),
                         child: Text(
                           "            To play this game:\n"
-                        "The game starts with player 1's go, and to move a piece please enter the name of the piece, then the new piece location e.g 1Pa e1. Then press the enter move button.\n"
+                        "The game starts with player 1's go, and to move a piece please enter the name of the piece, then the new piece location e.g 1Pa 1e. Then press the enter move button.\n"
                         "The program checks that the move is 'legal' aka the piece belongs to the correct player, and that the move is correct for the piece type.\n",
                           style: TextStyle(
                             color: textColour,

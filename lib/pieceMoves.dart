@@ -1,15 +1,12 @@
-import 'main.dart';
-
 bool pawnMove(currentLocation, newLocation, bool firstMove, takingPiece, currentPlayer){
   bool moveLegal = false;
   // determine the horizontal and vertical value of current and new locations
   List<String> columnValues = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'];
+  String currentcolumnLoc = currentLocation[1];
+  String newcolumnLoc = newLocation[0];
   print(currentLocation);
-  String currentcolumnLoc = horizontalValue(currentLocation, columnValues);
-  print(currentcolumnLoc);
-  String newcolumnLoc = horizontalValue(newLocation, columnValues);
-  int currentrowLoc = verticalValue(currentLocation, columnValues);
-  int newrowLoc = verticalValue(newLocation, columnValues);
+  int currentrowLoc = int.parse(currentLocation[0]);
+  int newrowLoc = int.parse(newLocation[1]);
 
   if(takingPiece == true) {
     bool continueCheck = false;
@@ -50,6 +47,7 @@ bool pawnMove(currentLocation, newLocation, bool firstMove, takingPiece, current
     // if this is the pawns first move - can move forward 1 square or 2
     if (currentPlayer == 1) {
       if (firstMove == true) {
+        print(111);
         if (newrowLoc == currentrowLoc + 1 ||
             newrowLoc == currentrowLoc + 2) {
           moveLegal = true;
@@ -83,17 +81,17 @@ bool pawnMove(currentLocation, newLocation, bool firstMove, takingPiece, current
     //   automatically sets the new piece as a queen - just to avoid overcomplication
     //   replace current pawn with new queen piece in box
   }
-
+  print(moveLegal);
   return moveLegal;
 }
 
 bool kingMove(currentLoc, newLoc){
   bool moveLegal = false;
   List<String> columnValues = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'];
-  String currentcolumnLoc = horizontalValue(currentLoc, columnValues);
-  String newcolumnLoc = horizontalValue(newLoc, columnValues);
-  int currentrowLoc = verticalValue(currentLoc, columnValues);
-  int newrowLoc = verticalValue(newLoc, columnValues);
+  String currentcolumnLoc = currentLoc[1];
+  String newcolumnLoc = newLoc[0];
+  int currentrowLoc = currentLoc[0];
+  int newrowLoc = newLoc[1];
 
   bool found = false;
   bool end = false;
@@ -122,10 +120,10 @@ bool bishopMove(currentLoc, newLoc){
   bool moveLegal = false;
 
   List<String> columnValues = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'];
-  String currentcolumnLoc = horizontalValue(currentLoc, columnValues);
-  String newcolumnLoc = horizontalValue(newLoc, columnValues);
-  int currentrowLoc = verticalValue(currentLoc, columnValues);
-  int newrowLoc = verticalValue(newLoc, columnValues);
+  String currentcolumnLoc = currentLoc[1];
+  String newcolumnLoc = newLoc[0];
+  int currentrowLoc = currentLoc[0];
+  int newrowLoc = newLoc[1];
 
   // find out whether the row and column values have changed
   bool rowChange = false;
@@ -169,10 +167,10 @@ bool knightMove(currentLoc, newLoc){
   bool legalMove = false;
   List<String> columnValues = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'];
   Map<String, int> columnValuesMap = {'a': 1, 'b':2, 'c':3, 'd':4, 'e':5, 'f':6, 'g':7, 'h':8};
-  String currentcolumnLoc = horizontalValue(currentLoc, columnValues);
-  String newcolumnLoc = horizontalValue(newLoc, columnValues);
-  int currentrowLoc = verticalValue(currentLoc, columnValues);
-  int newrowLoc = verticalValue(newLoc, columnValues);
+  String currentcolumnLoc = currentLoc[1];
+  String newcolumnLoc = newLoc[0];
+  int currentrowLoc = currentLoc[0];
+  int newrowLoc = newLoc[1];
 
   int? currentColumnLocNum = columnValuesMap[currentcolumnLoc];
   int? newColumnLocNum = columnValuesMap[newcolumnLoc];
@@ -212,10 +210,10 @@ bool rookMove(currentLoc, newLoc){
   bool legalMove = false;
   List<String> columnValues = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'];
   Map<String, int> columnValuesMap = {'a': 1, 'b':2, 'c':3, 'd':4, 'e':5, 'f':6, 'g':7, 'h':8};
-  String currentcolumnLoc = horizontalValue(currentLoc, columnValues);
-  String newcolumnLoc = horizontalValue(newLoc, columnValues);
-  int currentrowLoc = verticalValue(currentLoc, columnValues);
-  int newrowLoc = verticalValue(newLoc, columnValues);
+  String currentcolumnLoc = currentLoc[1];
+  String newcolumnLoc = newLoc[0];
+  int currentrowLoc = currentLoc[0];
+  int newrowLoc = newLoc[1];
 
   bool colChange = false;
   bool rowChange = false;
@@ -234,27 +232,3 @@ bool rookMove(currentLoc, newLoc){
   return legalMove;
 }
 
-// Determines the horizontal value of a location (letter)
-String horizontalValue(location, listOfValues){
-  print(location);
-  String value = '';
-  for(int i=0;i<location-1;i++){
-    if(listOfValues.contains(location[i])){
-      value = location[i];
-    }
-  }
-  return value;
-}
-
-// Determines the vertical value of a location (numbers)
-int verticalValue(location, listOfValues){
-  int value = 0;
-  for(int i=0;i<location-1;i++){
-    if(listOfValues.contains(location[i])){
-    }
-    else{
-      value &= location[i];
-    }
-  }
-  return value;
-}

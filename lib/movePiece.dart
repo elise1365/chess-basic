@@ -45,8 +45,10 @@ bool movePiece() {
       pieceBeingTaken = true;
     }
     if(pieceName.contains('P')){
-      if(P1box.get(pieceName)!.firstMove == true){
+      print(P1box.get(pieceName)?.firstMove);
+      if(P1box.get(pieceName)?.firstMove == true){
         firstMove = true;
+        print(111);
       }
     }
   }
