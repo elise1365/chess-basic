@@ -93,9 +93,6 @@ bool kingMove(currentLoc, newLoc){
   int currentrowLoc = currentLoc[0];
   int newrowLoc = newLoc[1];
 
-  bool found = false;
-  bool end = false;
-
   // check for each possible move - up,down,left,right,diagonals
   if(newrowLoc == currentrowLoc + 1){
     // means that the piece is moving up by 1 square, or diagonally up left/right
@@ -165,7 +162,6 @@ bool bishopMove(currentLoc, newLoc){
 
 bool knightMove(currentLoc, newLoc){
   bool legalMove = false;
-  List<String> columnValues = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'];
   Map<String, int> columnValuesMap = {'a': 1, 'b':2, 'c':3, 'd':4, 'e':5, 'f':6, 'g':7, 'h':8};
   String currentcolumnLoc = currentLoc[1];
   String newcolumnLoc = newLoc[0];
@@ -175,8 +171,6 @@ bool knightMove(currentLoc, newLoc){
   int? currentColumnLocNum = columnValuesMap[currentcolumnLoc];
   int? newColumnLocNum = columnValuesMap[newcolumnLoc];
 
-  bool columnChangeBy1 = false;
-  bool rowChangeBy1 = false;
   if(currentrowLoc+1 == newrowLoc || currentrowLoc-1 == newrowLoc){
     if(newColumnLocNum == currentColumnLocNum!+2 || newColumnLocNum == currentColumnLocNum-2){
       legalMove = true;
@@ -208,8 +202,6 @@ bool queenMove(currentLoc, newLoc){
 
 bool rookMove(currentLoc, newLoc){
   bool legalMove = false;
-  List<String> columnValues = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'];
-  Map<String, int> columnValuesMap = {'a': 1, 'b':2, 'c':3, 'd':4, 'e':5, 'f':6, 'g':7, 'h':8};
   String currentcolumnLoc = currentLoc[1];
   String newcolumnLoc = newLoc[0];
   int currentrowLoc = currentLoc[0];

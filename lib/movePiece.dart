@@ -1,11 +1,7 @@
 import 'package:chess/p1pieces.dart';
 import 'package:chess/p2pieces.dart';
-import 'p1pieces.dart';
-import 'p2pieces.dart';
 import 'main.dart';
 import 'pieceMoves.dart';
-import 'package:hive/hive.dart';
-import 'package:hive_flutter/hive_flutter.dart';
 
 bool movePiece() {
   // determine player
