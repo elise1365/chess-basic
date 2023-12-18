@@ -24,11 +24,11 @@ bool rebuildBoard = false;
 String inputText = '';
 bool illegalMove = false;
 String illegalMoveDescrip = '';
-bool lightMode = false;
-Color primaryColour = const Color(0xFFE36588);
-Color secondaryColour = const Color(0xFFB2B09B);
-Color tertiaryColour = const Color(0xFF6279B8);
-Color textColour = Colors.black;
+bool lightMode = true;
+Color primaryColour = const Color(0xFF16324F);
+Color secondaryColour = const Color(0xFF7D7C7A);
+Color tertiaryColour = const Color(0xFFABA9BF);
+Color textColour = Colors.white;
 
 int _selectedIndex = 0;
 double groupAlignment = 0;
@@ -267,9 +267,9 @@ class _BoardState extends State<board> {
                     fontSize: 30.0, // Adjust the font size as needed
                   ),
                 ),
-                activeColor: Color(0xFF9A275A),
+                activeColor: Color(0xFF16324F),
                 activeTrackColor: Colors.black,
-                inactiveThumbColor: Color(0xFFE36588),
+                inactiveThumbColor: Color(0xFF5299D3),
                 inactiveTrackColor: Colors.white,
               ),
             ),
@@ -301,10 +301,17 @@ class _BoardState extends State<board> {
                           inputText = value;
                         });
                       },
+                      style: TextStyle(color: textColour),
                       decoration: InputDecoration(
                         hintText: 'Enter your move',
+                        hintStyle: TextStyle(color: textColour),
                         contentPadding: EdgeInsets.symmetric(horizontal: 20, vertical: 15),
-                        border: OutlineInputBorder(
+                        focusedBorder: OutlineInputBorder(
+                          borderSide: BorderSide(color: tertiaryColour), // Set focused border color
+                          borderRadius: BorderRadius.circular(30.0),
+                        ),
+                        enabledBorder: OutlineInputBorder(
+                          borderSide: BorderSide(color: tertiaryColour), // Set enabled border color
                           borderRadius: BorderRadius.circular(30.0),
                         ),
                       ),
@@ -316,9 +323,12 @@ class _BoardState extends State<board> {
             // enter move button
             Align(
             alignment: Alignment.bottomRight,
-            child: FilledButton(
-                style: ButtonStyle(
-                  backgroundColor: MaterialStatePropertyAll<Color>(secondaryColour),
+            child:
+            Padding(
+                padding: EdgeInsets.all(16.0), // Adjust the value as needed
+                child: FilledButton(
+                  style: ButtonStyle(
+                   backgroundColor: MaterialStatePropertyAll<Color>(tertiaryColour),
                 ),
               onPressed: ()
               {setState(() {
@@ -347,6 +357,7 @@ class _BoardState extends State<board> {
                 if (rebuildBoard) {
                   clearRows();
                   piecesByRow();
+                  print(P2box.get('2Pa')?.location);
                   board();
                   rebuildBoard = false;
                 }
@@ -356,6 +367,7 @@ class _BoardState extends State<board> {
               child: Text ("Enter Move", style: TextStyle(color: textColour),),
             )
         ),
+            ),
             // navigation rail
             Row(
               children: <Widget> [NavigationRail(
@@ -664,7 +676,6 @@ Map<int, String> pieceByRow(Map<int, String>row, int RowNum){
       row[colNum] = toStore;
     }
   }
-  print(row);
   return row;
 }
 
@@ -761,17 +772,17 @@ Color determineTextColour(String cellText){
 }
 
 void changeColourScheme(){
-  if(lightMode == false){
-    primaryColour = const Color(0xFF9A275A);
-    secondaryColour = const Color(0xFF1E8285);
-    tertiaryColour = const Color(0xFFC43173);
-    textColour = Colors.white;
+  if(lightMode == true){
+    primaryColour = const Color(0xFF5299D3);
+    secondaryColour = const Color(0xFF6279B8);
+    tertiaryColour = const Color(0xFF533747);
+    textColour = Colors.black;
   }
   else{
-    primaryColour = const Color(0xFFE36588);
-    secondaryColour = const Color(0xFFB2B09B);
-    tertiaryColour = const Color(0xFF6279B8);
-    textColour = Colors.black;
+    primaryColour = const Color(0xFF16324F);
+    secondaryColour = const Color(0xFF7D7C7A);
+    tertiaryColour = const Color(0xFFABA9BF);
+    textColour = Colors.white;
   }
 }
 

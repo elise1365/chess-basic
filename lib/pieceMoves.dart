@@ -79,7 +79,6 @@ bool pawnMove(currentLocation, newLocation, bool firstMove, takingPiece, current
     //   automatically sets the new piece as a queen - just to avoid overcomplication
     //   replace current pawn with new queen piece in box
   }
-  print(moveLegal);
   return moveLegal;
 }
 

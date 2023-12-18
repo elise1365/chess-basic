@@ -37,8 +37,13 @@ bool movePiece() {
   if(currentPlayer == 1){
     pieceName = pieceName.replaceAll(' ', '');
     currentLoc = P1box.get(pieceName)!.location;
-    if(P2box.values.contains(newLocation)){
-      pieceBeingTaken = true;
+    print(111);
+    for (var key in P2box.keys) {
+      var value = P2box.get(key);
+        // Check if the location value = newLocation
+      if (value?.location == (newLocation[1] + newLocation[0])) {
+        pieceBeingTaken = true;
+      }
     }
     // first move is only important if the piece is a pawn
     if(pieceName.contains('P')){
@@ -49,6 +54,7 @@ bool movePiece() {
   }
   else{
     // get the current location
+    pieceName = pieceName.replaceAll(' ', '');
     currentLoc = P2box.get(pieceName)!.location;
     // find out if the new location contains a piece belonging to the other player
     if(P1box.values.contains(newLocation)){
@@ -68,18 +74,18 @@ bool movePiece() {
       if (currentPlayer == 1) {
         int key = 0;
         // finding the key of the item in the list to remove.
-        for (int i = 0; i < P2box.length; i++) {
-          if (P2box.get(P2box.keyAt(i))!.location == newLocation) {
+        for (int i=0;i<P2box.length;i++) {
+          if (P2box.get(P2box.keyAt(i))!.location == (newLocation[1] + newLocation[0])) {
             key = i;
           }
         }
-        P2box.delete(key); // remove the piece from the players list of pieces
+        P2box.deleteAt(key);
       }
       else {
         int key = 0;
         // finding the key of the item in the list to remove.
-        for (int i = 0; i < P1box.length; i++) {
-          if (P1box.get(P1box.keyAt(i))!.location == newLocation) {
+        for (int i=0;i<P1box.length;i++) {
+          if (P1box.get(P1box.keyAt(i))!.location == (newLocation[1] + newLocation[0])) {
             key = i;
           }
         }
@@ -91,7 +97,7 @@ bool movePiece() {
       P1box.get(pieceName)?.location = newLocation[1] + newLocation[0];
     }
     else{
-      P1box.get(pieceName)?.location = newLocation[1] + newLocation[0];
+      P2box.get(pieceName)?.location = newLocation[1] + newLocation[0];
     }
   }
   else{
@@ -158,7 +164,6 @@ bool checkMove(takingPiece, currentPlayer, firstMove, currentLoc, pieceName){
           }
           String piece = inputText[spaceLocation-2];
           if(piece == 'P'){
-            print(currentLoc);
             return pawnMove(currentLoc, newLocation, firstMove, takingPiece, currentPlayer);
           }
           else if(piece == 'n'){
