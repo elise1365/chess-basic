@@ -40,11 +40,10 @@ bool movePiece() {
     if(P2box.values.contains(newLocation)){
       pieceBeingTaken = true;
     }
+    // first move is only important if the piece is a pawn
     if(pieceName.contains('P')){
-      print(P1box.get(pieceName)?.firstMove);
-      if(P1box.get(pieceName)?.firstMove == true){
+      if(P1box.get(pieceName)!.firstMove.contains("true")){
         firstMove = true;
-        print(111);
       }
     }
   }
@@ -57,7 +56,7 @@ bool movePiece() {
     }
     // check if the piece is a pawn, and if it is then check if this is the pawns first move
     if(pieceName.contains('P')){
-      if(P2box.get(pieceName)!.firstMove == true){
+      if(P2box.get(pieceName)!.firstMove.contains("true")){
         firstMove = true;
       }
     }
@@ -87,28 +86,12 @@ bool movePiece() {
         P1box.delete(key); // remove the piece from the players list of pieces
       }
     }
-    //now change the location of the piece in the text box, and call the function that builds the chessboard so that it updates
-    if(player == 1){
-      // identify the key
-      int key = 0;
-      for(int i=0;i<P1box.length;i++){
-        if(P1box.keyAt(i) == pieceName){
-          key = i;
-        }
-      }
-      P1box.delete(key);
-      P1box.put(key, newLocation as p1);
+    // now change the location of the piece being moved & call the chessBoard build function etc... basically rebuild the board with the updated location
+    if(player[6] == '1'){
+      P1box.get(pieceName)?.location = newLocation[1] + newLocation[0];
     }
     else{
-      // identify the key
-      int key = 0;
-      for(int i=0;i<P2box.length;i++){
-        if(P2box.keyAt(i) == pieceName){
-          key = i;
-        }
-      }
-      P2box.delete(key);
-      P2box.put(key, newLocation as p2);
+      P1box.get(pieceName)?.location = newLocation[1] + newLocation[0];
     }
   }
   else{

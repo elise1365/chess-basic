@@ -4,7 +4,6 @@ bool pawnMove(currentLocation, newLocation, bool firstMove, takingPiece, current
   List<String> columnValues = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'];
   String currentcolumnLoc = currentLocation[1];
   String newcolumnLoc = newLocation[0];
-  print(currentLocation);
   int currentrowLoc = int.parse(currentLocation[0]);
   int newrowLoc = int.parse(newLocation[1]);
 
@@ -47,16 +46,15 @@ bool pawnMove(currentLocation, newLocation, bool firstMove, takingPiece, current
     // if this is the pawns first move - can move forward 1 square or 2
     if (currentPlayer == 1) {
       if (firstMove == true) {
-        print(111);
-        if (newrowLoc == currentrowLoc + 1 ||
-            newrowLoc == currentrowLoc + 2) {
+        if (newrowLoc == currentrowLoc - 1 ||
+            newrowLoc == currentrowLoc - 2) {
           moveLegal = true;
           //   NEED TO SET FIRSTMOVE AS FALSE
         }
       }
       // if this isnt the pawns first move
       else {
-        if (newrowLoc == currentrowLoc + 1) {
+        if (newrowLoc == currentrowLoc - 1) {
           moveLegal = true;
         }
       }
@@ -64,14 +62,14 @@ bool pawnMove(currentLocation, newLocation, bool firstMove, takingPiece, current
     // if player 2 is moving their piece, then the row number decreases rather than increases.
     else{
       if (firstMove == true) {
-        if (newrowLoc == currentrowLoc - 1 ||
-            newrowLoc == currentrowLoc - 2) {
+        if (newrowLoc == currentrowLoc + 1 ||
+            newrowLoc == currentrowLoc + 2) {
           moveLegal = true;
           //   NEED TO SET FIRSTMOVE AS FALSE
         }
       }
       else {
-        if (newrowLoc == currentrowLoc - 1) {
+        if (newrowLoc == currentrowLoc + 1) {
           moveLegal = true;
         }
       }

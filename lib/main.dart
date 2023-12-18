@@ -71,6 +71,16 @@ Future<void> main() async {
     P2box.put(key,piece);
   }
   //***
+  piecesByRow();
+  runApp (
+     MaterialApp(
+        debugShowCheckedModeBanner: false, // hides the debug barrier
+      home: board(),
+    ),
+  );
+}
+
+void piecesByRow(){
   pieceByRow(row1, 1);
   pieceByRow(row2, 2);
   pieceByRow(row3, 3);
@@ -79,12 +89,6 @@ Future<void> main() async {
   pieceByRow(row6, 6);
   pieceByRow(row7, 7);
   pieceByRow(row8, 8);
-  runApp (
-     MaterialApp(
-        debugShowCheckedModeBanner: false, // hides the debug barrier
-      home: board(),
-    ),
-  );
 }
 
 class myChessApp extends StatefulWidget{
@@ -341,10 +345,9 @@ class _BoardState extends State<board> {
                   player = currentPlayer(player);
                 }
                 if (rebuildBoard) {
-                  // Add logic to rebuild the chessboard here
-                  // For example, you can call a function to rebuild the board
-                  buildChessBoard();
-                  // Reset the rebuildBoard flag
+                  clearRows();
+                  piecesByRow();
+                  board();
                   rebuildBoard = false;
                 }
               });},
@@ -383,6 +386,17 @@ class _BoardState extends State<board> {
       ),)
     ),
     );}
+}
+
+void clearRows(){
+  row1 = {1:'',2:'',3:'',4:'',5:'',6:'',7:'', 8:''};
+  row2 = {1:'',2:'',3:'',4:'',5:'',6:'',7:'', 8:''};
+  row3 = {1:'',2:'',3:'',4:'',5:'',6:'',7:'', 8:''};
+  row4 = {1:'',2:'',3:'',4:'',5:'',6:'',7:'', 8:''};
+  row5 = {1:'',2:'',3:'',4:'',5:'',6:'',7:'', 8:''};
+  row6 = {1:'',2:'',3:'',4:'',5:'',6:'',7:'', 8:''};
+  row7 = {1:'',2:'',3:'',4:'',5:'',6:'',7:'', 8:''};
+  row8 = {1:'',2:'',3:'',4:'',5:'',6:'',7:'', 8:''};
 }
 
 Widget buildChessBoard(){
@@ -650,6 +664,7 @@ Map<int, String> pieceByRow(Map<int, String>row, int RowNum){
       row[colNum] = toStore;
     }
   }
+  print(row);
   return row;
 }
 
@@ -670,54 +685,14 @@ int convertColumnToNum(location){
 String determiningText(row, column){
   String text = '';
   if(row == 0){
-    if(row8.isEmpty){
+    if(row1.isEmpty){
       text = ' ';
     }
     else {
-      text = row8[column+1].toString();
+      text = row1[column+1].toString();
     }
   }
   else if(row == 1){
-    if(row7.isEmpty){
-      text = ' ';
-    }
-    else {
-      text = row7[column+1].toString();
-    }
-  }
-  else if(row == 2){
-    if(row6.isEmpty){
-      text = ' ';
-    }
-    else {
-      text = row6[column+1].toString();
-    }
-  }
-  else if(row == 3){
-    if(row5.isEmpty){
-      text = ' ';
-    }
-    else {
-      text = row5[column+1].toString();
-    }
-  }
-  else if(row == 4){
-    if(row4.isEmpty){
-      text = ' ';
-    }
-    else {
-      text = row4[column+1].toString();
-    }
-  }
-  else if(row == 5){
-    if(row3.isEmpty){
-      text = ' ';
-    }
-    else {
-      text = row3[column+1].toString();
-    }
-  }
-  else if(row == 6){
     if(row2.isEmpty){
       text = ' ';
     }
@@ -725,12 +700,52 @@ String determiningText(row, column){
       text = row2[column+1].toString();
     }
   }
-  else if(row == 7){
-    if(row1.isEmpty){
+  else if(row == 2){
+    if(row3.isEmpty){
       text = ' ';
     }
     else {
-      text = row1[column+1].toString();
+      text = row3[column+1].toString();
+    }
+  }
+  else if(row == 3){
+    if(row4.isEmpty){
+      text = ' ';
+    }
+    else {
+      text = row4[column+1].toString();
+    }
+  }
+  else if(row == 4){
+    if(row5.isEmpty){
+      text = ' ';
+    }
+    else {
+      text = row5[column+1].toString();
+    }
+  }
+  else if(row == 5){
+    if(row6.isEmpty){
+      text = ' ';
+    }
+    else {
+      text = row6[column+1].toString();
+    }
+  }
+  else if(row == 6){
+    if(row7.isEmpty){
+      text = ' ';
+    }
+    else {
+      text = row7[column+1].toString();
+    }
+  }
+  else if(row == 7){
+    if(row8.isEmpty){
+      text = ' ';
+    }
+    else {
+      text = row8[column+1].toString();
     }
   }
   return text;
