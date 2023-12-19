@@ -37,7 +37,6 @@ bool movePiece() {
   if(currentPlayer == 1){
     pieceName = pieceName.replaceAll(' ', '');
     currentLoc = P1box.get(pieceName)!.location;
-    print(111);
     for (var key in P2box.keys) {
       var value = P2box.get(key);
         // Check if the location value = newLocation
@@ -57,8 +56,12 @@ bool movePiece() {
     pieceName = pieceName.replaceAll(' ', '');
     currentLoc = P2box.get(pieceName)!.location;
     // find out if the new location contains a piece belonging to the other player
-    if(P1box.values.contains(newLocation)){
-      pieceBeingTaken = true;
+    for (var key in P1box.keys) {
+      var value = P1box.get(key);
+      // Check if the location value = newLocation
+      if (value?.location == (newLocation[1] + newLocation[0])) {
+        pieceBeingTaken = true;
+      }
     }
     // check if the piece is a pawn, and if it is then check if this is the pawns first move
     if(pieceName.contains('P')){
@@ -95,9 +98,15 @@ bool movePiece() {
     // now change the location of the piece being moved & call the chessBoard build function etc... basically rebuild the board with the updated location
     if(player[6] == '1'){
       P1box.get(pieceName)?.location = newLocation[1] + newLocation[0];
+      if(firstMove == true){
+        P1box.get(pieceName)?.firstMove = "false";
+      }
     }
     else{
       P2box.get(pieceName)?.location = newLocation[1] + newLocation[0];
+      if(firstMove == true){
+        P2box.get(pieceName)?.firstMove = "false";
+      }
     }
   }
   else{
@@ -146,13 +155,21 @@ bool checkMove(takingPiece, currentPlayer, firstMove, currentLoc, pieceName){
       }
       if(correctPlayer == true){
         if(currentPlayer == 1){
-          if(P1box.values.contains(newLocation)){
-            currentPlayerPieceAlreadyThere = true;
+          for (var key in P1box.keys) {
+            var value = P1box.get(key);
+            // Check if the location value = newLocation
+            if (value?.location == (newLocation[1] + newLocation[0])) {
+              currentPlayerPieceAlreadyThere = true;
+            }
           }
         }
         else{
-          if(P2box.values.contains(newLocation)){
-            currentPlayerPieceAlreadyThere = true;
+          for (var key in P2box.keys) {
+            var value = P2box.get(key);
+            // Check if the location value = newLocation
+            if (value?.location == (newLocation[1] + newLocation[0])) {
+              currentPlayerPieceAlreadyThere = true;
+            }
           }
         }
         if(currentPlayerPieceAlreadyThere == false){
@@ -162,24 +179,27 @@ bool checkMove(takingPiece, currentPlayer, firstMove, currentLoc, pieceName){
               spaceLocation = i;
             }
           }
-          String piece = inputText[spaceLocation-2];
-          if(piece == 'P'){
-            return pawnMove(currentLoc, newLocation, firstMove, takingPiece, currentPlayer);
+          // because queen and king idNames are 1 character shorter than rest of the pieces, check for them separately
+          if(inputText.contains("Q")){
+            return queenMove(currentLoc, newLocation);
           }
-          else if(piece == 'n'){
-            knightMove(currentLoc, newLocation);
+          else if(inputText.contains("K")){
+            return kingMove(currentLoc, newLocation);
           }
-          else if(piece == 'Q'){
-            queenMove(currentLoc, newLocation);
-          }
-          else if(piece == 'K'){
-            kingMove(currentLoc, newLocation);
-          }
-          else if(piece == 'B'){
-            bishopMove(currentLoc, newLocation);
-          }
-          else if(piece == 'R'){
-            rookMove(currentLoc, newLocation);
+          else{
+            String piece = inputText[spaceLocation-2];
+            if(piece == 'P'){
+              return pawnMove(currentLoc, newLocation, firstMove, takingPiece, currentPlayer);
+            }
+            else if(piece == 'n'){
+              return knightMove(currentLoc, newLocation);
+            }
+            else if(piece == 'B'){
+              return bishopMove(currentLoc, newLocation);
+            }
+            else if(piece == 'R'){
+              return rookMove(currentLoc, newLocation);
+            }
           }
           if(legalMove == true){
             //   move piece

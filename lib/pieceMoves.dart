@@ -87,8 +87,8 @@ bool kingMove(currentLoc, newLoc){
   List<String> columnValues = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'];
   String currentcolumnLoc = currentLoc[1];
   String newcolumnLoc = newLoc[0];
-  int currentrowLoc = currentLoc[0];
-  int newrowLoc = newLoc[1];
+  int currentrowLoc = int.parse(currentLoc[0]);
+  int newrowLoc = int.parse(newLoc[1]);
 
   // check for each possible move - up,down,left,right,diagonals
   if(newrowLoc == currentrowLoc + 1){
@@ -116,8 +116,8 @@ bool bishopMove(currentLoc, newLoc){
   List<String> columnValues = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'];
   String currentcolumnLoc = currentLoc[1];
   String newcolumnLoc = newLoc[0];
-  int currentrowLoc = currentLoc[0];
-  int newrowLoc = newLoc[1];
+  int currentrowLoc = int.parse(currentLoc[0]);
+  int newrowLoc = int.parse(newLoc[1]);
 
   // find out whether the row and column values have changed
   bool rowChange = false;
@@ -162,8 +162,8 @@ bool knightMove(currentLoc, newLoc){
   Map<String, int> columnValuesMap = {'a': 1, 'b':2, 'c':3, 'd':4, 'e':5, 'f':6, 'g':7, 'h':8};
   String currentcolumnLoc = currentLoc[1];
   String newcolumnLoc = newLoc[0];
-  int currentrowLoc = currentLoc[0];
-  int newrowLoc = newLoc[1];
+  int currentrowLoc = int.parse(currentLoc[0]);
+  int newrowLoc = int.parse(newLoc[1]);
 
   int? currentColumnLocNum = columnValuesMap[currentcolumnLoc];
   int? newColumnLocNum = columnValuesMap[newcolumnLoc];
@@ -193,7 +193,7 @@ bool queenMove(currentLoc, newLoc){
   if(rook == true || bishop == true){
     moveLegal = true;
   }
-
+  print(moveLegal);
   return moveLegal;
 }
 
@@ -201,8 +201,8 @@ bool rookMove(currentLoc, newLoc){
   bool legalMove = false;
   String currentcolumnLoc = currentLoc[1];
   String newcolumnLoc = newLoc[0];
-  int currentrowLoc = currentLoc[0];
-  int newrowLoc = newLoc[1];
+  int currentrowLoc = int.parse(currentLoc[0]);
+  int newrowLoc = int.parse(newLoc[1]);
 
   bool colChange = false;
   bool rowChange = false;
@@ -217,7 +217,6 @@ bool rookMove(currentLoc, newLoc){
   if(colChange == true && rowChange == false || rowChange == true && colChange == false){
     legalMove = true;
   }
-
   return legalMove;
 }
 

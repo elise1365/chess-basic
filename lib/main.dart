@@ -268,9 +268,9 @@ class _BoardState extends State<board> {
                   ),
                 ),
                 activeColor: Color(0xFF16324F),
-                activeTrackColor: Colors.black,
+                activeTrackColor: Colors.white,
                 inactiveThumbColor: Color(0xFF5299D3),
-                inactiveTrackColor: Colors.white,
+                inactiveTrackColor: Colors.black,
               ),
             ),
             // column guide
