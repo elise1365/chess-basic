@@ -540,8 +540,6 @@ class _rulesState extends State<rules> {
 // Takes the list of player 1 and 2's pieces and separates them by location
 Map<int, String> pieceByRow(Map<int, String>row, int RowNum){
   for(int i=0;i<P1box.length;i++){
-    print(P1box.get(P1box.keyAt(i))!.location[0]);
-    print(P1box.keys);
     if (P1box.get(P1box.keyAt(i))!.location[0].toString() == RowNum.toString()){
       String toStore = P1box.keyAt(i);
       int colNum = convertColumnToNum(P1box.get(P1box.keyAt(i))!.location[1]);

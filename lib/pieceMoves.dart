@@ -1,5 +1,5 @@
 import 'package:chess/p1pieces.dart';
-
+import 'package:chess/p2pieces.dart';
 import 'main.dart';
 bool pawnMove(currentLocation, newLocation, bool firstMove, takingPiece, currentPlayer){
   bool moveLegal = false;
@@ -78,25 +78,26 @@ bool pawnMove(currentLocation, newLocation, bool firstMove, takingPiece, current
       }
     }
   }
-  print(111);
-  // get piece name
-  List <String> inputList = inputText.split(" ");
-  String pieceName = inputList[0];
-  print(pieceName);
-  String newPieceName = inputText[0] + 'Q';
-
-  if(inputText[0] == '1'){
-    newPieceName += columnValues[p1NewQueenPieces];
-    print(newPieceName);
-    p1NewQueenPieces += 1;
-    print(P1box.get(pieceName)?.idname);
-    P1box.get(pieceName)?.idname = newPieceName;
-    P1box.delete(pieceName);
-    // p1 newItem = p1(newPieceName, newLocation, 'false');
-    // P1box.add(newItem);
-    print(P1box.keys);
-  }
   if(newrowLoc == 8 || newrowLoc == 1){
+    // get piece name
+    List <String> inputList = inputText.split(" ");
+    String pieceName = inputList[0];
+    String newPieceName = inputText[0] + 'Q';
+
+    if(inputText[0] == '1'){
+      newPieceName += columnValues[p1NewQueenPieces];
+      p1NewQueenPieces += 1;
+      P1box.delete(pieceName);
+      p1 newItem = p1(newPieceName, newLocation[1] + newLocation[0], 'false',);
+      P1box.put(newPieceName, newItem);
+    }
+    else{
+      newPieceName += columnValues[p2NewQueenPieces];
+      p2NewQueenPieces += 1;
+      P2box.delete(pieceName);
+      p2 newItem = p2(newPieceName, newLocation[1] + newLocation[0], 'false',);
+      P2box.put(newPieceName, newItem);
+    }
   }
   return moveLegal;
 }
