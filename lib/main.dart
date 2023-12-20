@@ -29,6 +29,8 @@ Color primaryColour = const Color(0xFF16324F);
 Color secondaryColour = const Color(0xFF7D7C7A);
 Color tertiaryColour = const Color(0xFFABA9BF);
 Color textColour = Colors.white;
+int p1NewQueenPieces = 0;
+int p2NewQueenPieces = 0;
 
 int _selectedIndex = 0;
 double groupAlignment = 0;
@@ -89,130 +91,6 @@ void piecesByRow(){
   pieceByRow(row6, 6);
   pieceByRow(row7, 7);
   pieceByRow(row8, 8);
-}
-
-class myChessApp extends StatefulWidget{
-  const myChessApp({Key?key}):
-      super(key:key);
-  @override
-  State<StatefulWidget> createState(){
-    return homePage();
-  }
-}
-
-class homePage extends State<myChessApp>{
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: primaryColour,
-      body: Align(
-        alignment: Alignment.center,
-        child: SizedBox(
-          height: MediaQuery.of(context).size.height,
-          width: MediaQuery.of(context).size.width,
-          child: Stack(
-            alignment: Alignment.topLeft,
-            children: [
-              Align(
-                alignment: const Alignment(0.0, 0.0),
-                child: FloatingActionButton.extended(
-                  onPressed: () {Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => board()),
-                  );},
-                  foregroundColor: secondaryColour,
-                  elevation: 0,
-                  shape: const RoundedRectangleBorder(
-                    borderRadius: BorderRadius.zero,
-                  ),
-                  hoverColor: textColour,
-                  extendedPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                  label: const Text(
-                    "Start a new game",
-                    style: TextStyle(
-                      fontSize: 14,
-                      fontWeight: FontWeight.w400,
-                      fontStyle: FontStyle.normal,
-                    ),
-                  ),
-                ),
-              ),
-              Align(
-                alignment: const Alignment(-0.8, 0.0),
-                child: MaterialButton(
-                  onPressed: () {Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => rules()),
-                  );},
-                  color: secondaryColour,
-                  elevation: 0,
-                  shape: const RoundedRectangleBorder(
-                    borderRadius: BorderRadius.zero,
-                  ),
-                  textColor: textColour,
-                  height: 70,
-                  minWidth: 100,
-                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                  child: const Text(
-                    "Rules",
-                    style: TextStyle(
-                      fontSize: 14,
-                      fontWeight: FontWeight.w400,
-                      fontStyle: FontStyle.normal,
-                    ),
-                  ),
-                ),
-              ),
-              Align(
-                alignment: const Alignment(0.8, 0.0),
-                child: MaterialButton(
-                  onPressed: () {},
-                  color: secondaryColour,
-                  elevation: 0,
-                  shape: const RoundedRectangleBorder(
-                    borderRadius: BorderRadius.zero,
-                  ),
-                  textColor: textColour,
-                  height: 70,
-                  minWidth: 100,
-                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                  child: const Text(
-                    "Help",
-                    style: TextStyle(
-                      fontSize: 14,
-                      fontWeight: FontWeight.w400,
-                      fontStyle: FontStyle.normal,
-                    ),
-                  ),
-                ),
-              ),
-              Align(
-                alignment: Alignment.topRight,
-                child: SwitchListTile(
-                  value: lightMode,
-                  onChanged: (bool value) {
-                    setState(() {
-                      changeColourScheme();
-                      if(lightMode == false){
-                        lightMode = true;
-                      }
-                      else{
-                        lightMode = false;
-                      }
-                    });
-                  },
-                  activeColor: Color(0xFF9A275A),
-                  activeTrackColor: Colors.black,
-                  inactiveThumbColor: Color(0xFFE36588),
-                  inactiveTrackColor: Colors.white,
-                ),
-              )
-            ],
-          ),
-        ),
-      ),
-    );
-  }
 }
 
 // chess board widget, when the 'start a new game' button is clicked, navigates to this page.
@@ -299,7 +177,8 @@ class _BoardState extends State<board> {
                       onChanged: (value) {
                         setState(() {
                           inputText = value;
-                        });
+                        }
+                        );
                       },
                       style: TextStyle(color: textColour),
                       decoration: InputDecoration(
@@ -357,7 +236,6 @@ class _BoardState extends State<board> {
                 if (rebuildBoard) {
                   clearRows();
                   piecesByRow();
-                  print(P2box.get('2Pa')?.location);
                   board();
                   rebuildBoard = false;
                 }
@@ -662,7 +540,9 @@ class _rulesState extends State<rules> {
 // Takes the list of player 1 and 2's pieces and separates them by location
 Map<int, String> pieceByRow(Map<int, String>row, int RowNum){
   for(int i=0;i<P1box.length;i++){
-    if (P1box.get(P1box.keyAt(i))!.location[0] == RowNum.toString()){
+    print(P1box.get(P1box.keyAt(i))!.location[0]);
+    print(P1box.keys);
+    if (P1box.get(P1box.keyAt(i))!.location[0].toString() == RowNum.toString()){
       String toStore = P1box.keyAt(i);
       int colNum = convertColumnToNum(P1box.get(P1box.keyAt(i))!.location[1]);
       row[colNum] = toStore;

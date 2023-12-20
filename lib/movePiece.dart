@@ -183,7 +183,7 @@ bool checkMove(takingPiece, currentPlayer, firstMove, currentLoc, pieceName){
           if(inputText.contains("Q")){
             return queenMove(currentLoc, newLocation);
           }
-          else if(inputText.contains("K")){
+          else if(inputText.contains("K ")){
             return kingMove(currentLoc, newLocation);
           }
           else{

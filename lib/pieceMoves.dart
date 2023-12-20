@@ -1,3 +1,6 @@
+import 'package:chess/p1pieces.dart';
+
+import 'main.dart';
 bool pawnMove(currentLocation, newLocation, bool firstMove, takingPiece, currentPlayer){
   bool moveLegal = false;
   // determine the horizontal and vertical value of current and new locations
@@ -75,9 +78,25 @@ bool pawnMove(currentLocation, newLocation, bool firstMove, takingPiece, current
       }
     }
   }
+  print(111);
+  // get piece name
+  List <String> inputList = inputText.split(" ");
+  String pieceName = inputList[0];
+  print(pieceName);
+  String newPieceName = inputText[0] + 'Q';
+
+  if(inputText[0] == '1'){
+    newPieceName += columnValues[p1NewQueenPieces];
+    print(newPieceName);
+    p1NewQueenPieces += 1;
+    print(P1box.get(pieceName)?.idname);
+    P1box.get(pieceName)?.idname = newPieceName;
+    P1box.delete(pieceName);
+    // p1 newItem = p1(newPieceName, newLocation, 'false');
+    // P1box.add(newItem);
+    print(P1box.keys);
+  }
   if(newrowLoc == 8 || newrowLoc == 1){
-    //   automatically sets the new piece as a queen - just to avoid overcomplication
-    //   replace current pawn with new queen piece in box
   }
   return moveLegal;
 }
@@ -178,7 +197,6 @@ bool knightMove(currentLoc, newLoc){
       legalMove = true;
     }
   }
-
   return legalMove;
 }
 
@@ -193,7 +211,6 @@ bool queenMove(currentLoc, newLoc){
   if(rook == true || bishop == true){
     moveLegal = true;
   }
-  print(moveLegal);
   return moveLegal;
 }
 
@@ -219,4 +236,3 @@ bool rookMove(currentLoc, newLoc){
   }
   return legalMove;
 }
-
