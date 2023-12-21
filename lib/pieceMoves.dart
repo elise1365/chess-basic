@@ -1,6 +1,7 @@
 import 'package:chess/p1pieces.dart';
 import 'package:chess/p2pieces.dart';
 import 'main.dart';
+
 bool pawnMove(currentLocation, newLocation, bool firstMove, takingPiece, currentPlayer){
   bool moveLegal = false;
   // determine the horizontal and vertical value of current and new locations

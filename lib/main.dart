@@ -6,6 +6,7 @@ import 'p2pieces.dart';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/adapters.dart';
 import 'movePiece.dart';
+import 'endGame.dart';
 
 late Box<p2> P2box;
 late Box<p1> P1box;
@@ -31,6 +32,9 @@ Color tertiaryColour = const Color(0xFFABA9BF);
 Color textColour = Colors.white;
 int p1NewQueenPieces = 0;
 int p2NewQueenPieces = 0;
+int piecesOwnedByP1 = 16;
+int piecesOwnedByP2 = 16;
+bool endOfGame = false;
 
 int _selectedIndex = 0;
 double groupAlignment = 0;
@@ -47,31 +51,13 @@ Future<void> main() async {
   String csv = "p1pieces.csv"; //path to csv file asset
   String fileData = await rootBundle.loadString(csv);
   List <String> player1pieces = fileData.split("\n");
-  for (int i = 0; i < player1pieces.length; i++)  {
-    String row = player1pieces[i];
-    List <String> itemInRow = row.split(",");
-    p1 piece = p1(
-        itemInRow[0],
-        itemInRow[1],
-        itemInRow[2],);
-        String key = itemInRow[0];
-        P1box.put(key, piece);
-  }
+  addItemsToP1box(player1pieces);
   // **
   // From now until ***, this is the code used to put the p2pieces.csv file into a p2List variable
   csv = "p2pieces.csv"; //path to csv file asset
   fileData = await rootBundle.loadString(csv);
   List <String> player2pieces = fileData.split("\n");
-  for (int i = 0; i < player2pieces.length; i++)  {
-    String row = player2pieces[i];
-    List <String> itemInRow = row.split(",");
-    p2 piece = p2(
-    itemInRow[0],
-    itemInRow[1],
-    itemInRow[2],);
-    String key = itemInRow[0];
-    P2box.put(key,piece);
-  }
+  addItemsToP2box(player2pieces);
   //***
   piecesByRow();
   runApp (
@@ -122,6 +108,7 @@ class _BoardState extends State<board> {
         child: Stack(
           alignment: Alignment.center,
           children:[
+            // light mode/ dark mode switch
             Align(
               alignment: Alignment.topLeft,
               child: SwitchListTile(
@@ -163,7 +150,7 @@ class _BoardState extends State<board> {
                 )
               ],
             ),
-            // containers
+            // board
             buildChessBoard(),
             // textfield to enter move
             Center(
@@ -195,7 +182,7 @@ class _BoardState extends State<board> {
                         ),
                       ),
                     ),
-                  ),
+                  )
                 ),
               ),
             ),
@@ -234,6 +221,10 @@ class _BoardState extends State<board> {
                   player = currentPlayer(player);
                 }
                 if (rebuildBoard) {
+                  print(endOfGame);
+                  if(endOfGame == true){
+                    endOfGameDialog(context);
+                  }
                   clearRows();
                   piecesByRow();
                   board();
@@ -272,7 +263,39 @@ class _BoardState extends State<board> {
                     ),
             ]),
                 ]
-            )],
+            ),
+            // total pieces for each player
+            Column(
+            children: [
+              Align(
+                alignment: Alignment.topRight,
+                child: Padding(padding: EdgeInsets.only(top: 160.0, right: 40), child: Text('Player 1 total pieces: ${piecesOwnedByP1}', style: TextStyle(color: textColour, fontSize: 20)))),
+              Align(
+                  alignment: Alignment.topRight,
+                  child: Padding(padding: EdgeInsets.only(top: 20.0, right: 40), child: Text('Player 2 total pieces: ${piecesOwnedByP2}', style: TextStyle(color: textColour, fontSize: 20))))]
+          ),
+            // reset button
+            Align(
+              alignment: Alignment.bottomLeft,
+              child:
+              Padding(
+                  padding: EdgeInsets.all(16.0), // Adjust the value as needed
+                  child: FilledButton(
+                    style: ButtonStyle(
+                      backgroundColor: MaterialStatePropertyAll<Color>(tertiaryColour),
+                    ),
+                    onPressed: ()
+                    {setState(() {
+                      // Call the reset function here
+                      resetVariables();
+                    });},
+                    //enter the players move
+                    //change the current player displayed
+                    child: Text ("Reset", style: TextStyle(color: textColour),),
+                  )
+              ),
+            ),
+          ],
       ),)
     ),
     );}
@@ -699,4 +722,25 @@ class rowGuide extends StatelessWidget {
       ),
     );
   }
+}
+
+Future<void> endOfGameDialog(BuildContext context) async {
+  return showDialog<void>(
+    context: context,
+    barrierDismissible: false, // user must tap button!
+    builder: (BuildContext context) {
+      return AlertDialog(
+        title: const Text('The game has ended'),
+        content: Text('Player ${player[player.length-1]} has won! Congratualations!!!'),
+        actions: <Widget>[
+          TextButton(
+            child: const Text('Close'),
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+          ),
+        ],
+      );
+    },
+  );
 }

@@ -2,6 +2,7 @@ import 'package:chess/p1pieces.dart';
 import 'package:chess/p2pieces.dart';
 import 'main.dart';
 import 'pieceMoves.dart';
+import 'endGame.dart';
 
 bool movePiece() {
   // determine player
@@ -83,6 +84,7 @@ bool movePiece() {
           }
         }
         P2box.deleteAt(key);
+        piecesOwnedByP2 -= 1;
       }
       else {
         int key = 0;
@@ -92,7 +94,8 @@ bool movePiece() {
             key = i;
           }
         }
-        P1box.delete(key); // remove the piece from the players list of pieces
+        P1box.deleteAt(key); // remove the piece from the players list of pieces
+        piecesOwnedByP1 -= 1;
       }
     }
     // now change the location of the piece being moved & call the chessBoard build function etc... basically rebuild the board with the updated location
@@ -108,6 +111,10 @@ bool movePiece() {
         P2box.get(pieceName)?.firstMove = "false";
       }
     }
+  if(checkForEndOfGame(currentPlayer) == true){
+    endOfGame = true;
+  //   reset everything
+  }
   }
   else{
     illegalMove = true;
