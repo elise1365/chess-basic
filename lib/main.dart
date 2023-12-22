@@ -108,7 +108,7 @@ class _BoardState extends State<board> {
         child: Stack(
           alignment: Alignment.center,
           children:[
-            // light mode/ dark mode switch
+            // light mode/dark mode switch & current player text
             Align(
               alignment: Alignment.topLeft,
               child: SwitchListTile(
@@ -199,6 +199,7 @@ class _BoardState extends State<board> {
               onPressed: ()
               {setState(() {
                 if(inputText == '' || inputText == ' '){
+                  illegalMove = true;
                 }
                 else{
                   illegalMove = movePiece();
@@ -217,17 +218,14 @@ class _BoardState extends State<board> {
                   );
                   illegalMove = false;
               }
-              else{
-                  player = currentPlayer(player);
-                }
-                if (rebuildBoard) {
-                  print(endOfGame);
+                if (rebuildBoard == true) {
                   if(endOfGame == true){
                     endOfGameDialog(context);
                   }
                   clearRows();
                   piecesByRow();
                   board();
+                  player = currentPlayer(player);
                   rebuildBoard = false;
                 }
               });},
@@ -279,7 +277,7 @@ class _BoardState extends State<board> {
               alignment: Alignment.bottomLeft,
               child:
               Padding(
-                  padding: EdgeInsets.all(16.0), // Adjust the value as needed
+                  padding: EdgeInsets.only(left:90.0, bottom: 16),
                   child: FilledButton(
                     style: ButtonStyle(
                       backgroundColor: MaterialStatePropertyAll<Color>(tertiaryColour),
