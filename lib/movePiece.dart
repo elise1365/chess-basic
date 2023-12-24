@@ -162,21 +162,13 @@ bool checkMove(takingPiece, currentPlayer, firstMove, currentLoc, pieceName){
       }
       if(correctPlayer == true){
         if(currentPlayer == 1){
-          for (var key in P1box.keys) {
-            var value = P1box.get(key);
-            // Check if the location value = newLocation
-            if (value?.location == (newLocation[1] + newLocation[0])) {
-              currentPlayerPieceAlreadyThere = true;
-            }
+          if (checkSpaceForPieceBoxSpecific(newLocation[1] + newLocation[0], P1box) == false) {
+            currentPlayerPieceAlreadyThere = true;
           }
         }
         else{
-          for (var key in P2box.keys) {
-            var value = P2box.get(key);
-            // Check if the location value = newLocation
-            if (value?.location == (newLocation[1] + newLocation[0])) {
-              currentPlayerPieceAlreadyThere = true;
-            }
+          if (checkSpaceForPieceBoxSpecific(newLocation[1] + newLocation[0], P2box) == false) {
+            currentPlayerPieceAlreadyThere = true;
           }
         }
         if(currentPlayerPieceAlreadyThere == false){
@@ -241,4 +233,17 @@ bool checkMove(takingPiece, currentPlayer, firstMove, currentLoc, pieceName){
     illegalMoveDescrip = 'This move is not legal because the piece entered does not exist. Please try again';
     return false;
   }
+}
+
+// this is only used to check that the newLocation contains no pieces belonging to the current player - the new location can contain pieces belonging to the other player, and the piece can take these pieces
+bool checkSpaceForPieceBoxSpecific(location, box){
+  bool spaceEmpty = true;
+
+  for(int i=0;i<box.length;i++){
+    if(box.getAt(i)?.location == location){
+     spaceEmpty = false;
+    }
+  }
+
+  return spaceEmpty;
 }

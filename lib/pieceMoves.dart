@@ -52,8 +52,10 @@ bool pawnMove(currentLocation, newLocation, bool firstMove, takingPiece, current
       if (firstMove == true) {
         if (newrowLoc == currentrowLoc - 1 ||
             newrowLoc == currentrowLoc - 2) {
-          moveLegal = true;
-          //   NEED TO SET FIRSTMOVE AS FALSE
+          String previousLocation = ((newrowLoc+1).toString())+newcolumnLoc;
+          if(checkSpaceForPiece(previousLocation) == true){
+            moveLegal = true;
+          }
         }
       }
       // if this isnt the pawns first move
@@ -68,8 +70,10 @@ bool pawnMove(currentLocation, newLocation, bool firstMove, takingPiece, current
       if (firstMove == true) {
         if (newrowLoc == currentrowLoc + 1 ||
             newrowLoc == currentrowLoc + 2) {
-          moveLegal = true;
-          //   NEED TO SET FIRSTMOVE AS FALSE
+          String previousLocation = ((newrowLoc-1).toString())+newcolumnLoc;
+          if(checkSpaceForPiece(previousLocation) == true){
+            moveLegal = true;
+          }
         }
       }
       else {
@@ -79,6 +83,7 @@ bool pawnMove(currentLocation, newLocation, bool firstMove, takingPiece, current
       }
     }
   }
+
   if(newrowLoc == 8 || newrowLoc == 1){
     // get piece name
     List <String> inputList = inputText.split(" ");
@@ -237,4 +242,23 @@ bool rookMove(currentLoc, newLoc){
     legalMove = true;
   }
   return legalMove;
+}
+
+// iteration of a function in movePiece, but checks both boxes, this function is used when checking the path between current location and new location is clear
+bool checkSpaceForPiece(String location){
+  bool spaceEmpty = true;
+
+  for(int i=0;i<P1box.length;i++){
+    if(P1box.getAt(i)?.location == location){
+      spaceEmpty = false;
+    }
+  }
+
+  for(int i=0;i<P2box.length;i++){
+    if(P2box.getAt(i)?.location == location){
+      spaceEmpty = false;
+    }
+  }
+
+  return spaceEmpty;
 }
