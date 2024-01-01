@@ -155,28 +155,103 @@ bool bishopMove(currentLoc, newLoc){
     columnChange = true;
   }
 
+  bool columnIncreasing = false;
+  bool rowIncreasing = false;
+
   int rowIndex = 0;
   int columnIndex = 0;
   if(columnChange == true && rowChange == true){
     // translating the column names (A,B,C etc) to numbers so they can be compared easily
     int currentColAsNum = columnValues.indexOf(currentcolumnLoc);
     int newColAsNum = columnValues.indexOf(newcolumnLoc);
-    // Comparing the current and new row and column values, to crease an index for each
+    // Comparing the current and new row and column values, to create an index for each
     if(currentrowLoc > newrowLoc){
       rowIndex = currentrowLoc - newrowLoc;
     }
     else{
+      rowIncreasing = true;
       rowIndex = newrowLoc - currentrowLoc;
     }
     if(currentColAsNum > newColAsNum){
       columnIndex = currentColAsNum - newColAsNum;
     }
     else{
+      columnIncreasing = true;
       columnIndex = newColAsNum - currentColAsNum;
     }
-    // if both row and column have changed by the saem value, the piece must have moved diagonal, so the move is legal
+
+    // if both row and column have changed by the same value, the piece must have moved diagonal, so the move is legal
     if(rowIndex == columnIndex){
-      moveLegal = true;
+      // if player is only moving 1 space, this space has already been checked if its empty, done in checkMove, so no need to check again
+      if(rowIndex == 1){
+        moveLegal = true;
+      }
+      else if(columnIncreasing == true){
+        if(rowIncreasing == true){
+          // means that both the column and row are increasing, this piece is moving diagonally downwards on the board from left to right
+          for(int i=1;i<rowIndex;i++){
+            String location = (currentrowLoc +i).toString() + columnValues[currentColAsNum+i];
+            if(i==rowIndex-1 && checkSpaceForPiece(location) == true){
+              // means that we've gone through every space (apart from the last space before the new location) from previous location to current location and all the spaces are clear
+              moveLegal = true;
+            }
+            else{
+              // if i!=rowindex-1 this means we need to check a space
+              if(checkSpaceForPiece(location) == false){
+                // if the space is full, exit the for loop and the move is illegal
+                break;
+              }
+            }
+          }
+        }
+        else{
+          // this is for pieces moving right and up
+          for(int i=1;i<rowIndex;i++){
+            String location = (currentrowLoc -i).toString() + columnValues[currentColAsNum+i];
+            if(i==rowIndex-1 && checkSpaceForPiece(location) == true){
+              moveLegal = true;
+            }
+            else{
+              if(checkSpaceForPiece(location) == false){
+                break;
+              }
+            }
+          }
+        }
+      }
+      else{
+        if(rowIncreasing == true){
+          // pieces moving left and down
+          for(int i=1;i<rowIndex;i++){
+            String location = (currentrowLoc +i).toString() + columnValues[currentColAsNum-i];
+            if(i==rowIndex-1 && checkSpaceForPiece(location) == true){
+              // means that we've gone through every space (apart from the last space before the new location) from previous location to current location and all the spaces are clear
+              moveLegal = true;
+            }
+            else{
+              // if i!=rowindex-1 this means we need to check a space
+              if(checkSpaceForPiece(location) == false){
+                // if the space is full, exit the for loop and the move is illegal
+                break;
+              }
+            }
+          }
+        }
+        else{
+          // this is for pieces moving left and up
+          for(int i=1;i<rowIndex;i++){
+            String location = (currentrowLoc -i).toString() + columnValues[currentColAsNum-i];
+            if(i==rowIndex-1 && checkSpaceForPiece(location) == true){
+              moveLegal = true;
+            }
+            else{
+              if(checkSpaceForPiece(location) == false){
+                break;
+              }
+            }
+          }
+        }
+      }
     }
   }
 
