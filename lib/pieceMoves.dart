@@ -278,17 +278,29 @@ bool knightMove(currentLoc, newLoc){
       if(newColumnLocNum == currentColumnLocNum-2){
         // column change to the  left
         for(int i=0;i<2;i++){
-          print(111);
-          String location = currentrowLoc.toString() + columnValues[currentColumnLocNum - i];
-          print(checkSpaceForPiece(location));
-          print(i);
+          int index = currentColumnLocNum - (i+2);
+          String location = currentrowLoc.toString() + columnValues[index];
           if(i==1 && checkSpaceForPiece(location) == true){
             legalMove = true;
           }
           else{
-            // if i!=rowindex-1 this means we need to check a space
             if(checkSpaceForPiece(location) == false){
-              // if the space is full, exit the for loop and the move is illegal
+              break;
+            }
+          }
+        }
+      }
+      else{
+        // column change to the right
+        for(int i=0;i<2;i++){
+          int index = currentColumnLocNum + i;
+          print(index);
+          String location = currentrowLoc.toString() + columnValues[index];
+          if(i==1 && checkSpaceForPiece(location) == true){
+            legalMove = true;
+          }
+          else{
+            if(checkSpaceForPiece(location) == false){
               break;
             }
           }
@@ -298,7 +310,34 @@ bool knightMove(currentLoc, newLoc){
   }
   else if(newColumnLocNum == currentColumnLocNum!+1 || newColumnLocNum == currentColumnLocNum-1){
     if(currentrowLoc+2 == newrowLoc || currentrowLoc-2 == newrowLoc){
-      legalMove = true;
+      if(newrowLoc == currentrowLoc-2){
+        // column change to the  left
+        for(int i=0;i<2;i++){
+          String location = (currentrowLoc-(i+1)).toString() + currentcolumnLoc;
+          if(i==1 && checkSpaceForPiece(location) == true){
+            legalMove = true;
+          }
+          else{
+            if(checkSpaceForPiece(location) == false){
+              break;
+            }
+          }
+        }
+      }
+      else{
+        // column change to the right
+        for(int i=0;i<2;i++){
+          String location = (currentrowLoc+(i+1)).toString() + currentcolumnLoc;
+          if(i==1 && checkSpaceForPiece(location) == true){
+            legalMove = true;
+          }
+          else{
+            if(checkSpaceForPiece(location) == false){
+              break;
+            }
+          }
+        }
+      }
     }
   }
   return legalMove;
