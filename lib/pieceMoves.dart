@@ -266,12 +266,34 @@ bool knightMove(currentLoc, newLoc){
   int currentrowLoc = int.parse(currentLoc[0]);
   int newrowLoc = int.parse(newLoc[1]);
 
+  List<String> columnValues = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'];
+
   int? currentColumnLocNum = columnValuesMap[currentcolumnLoc];
   int? newColumnLocNum = columnValuesMap[newcolumnLoc];
 
   if(currentrowLoc+1 == newrowLoc || currentrowLoc-1 == newrowLoc){
     if(newColumnLocNum == currentColumnLocNum!+2 || newColumnLocNum == currentColumnLocNum-2){
-      legalMove = true;
+      // check if the path from previous location to new location is empty
+      // determine if the column change was to the left or right
+      if(newColumnLocNum == currentColumnLocNum-2){
+        // column change to the  left
+        for(int i=0;i<2;i++){
+          print(111);
+          String location = currentrowLoc.toString() + columnValues[currentColumnLocNum - i];
+          print(checkSpaceForPiece(location));
+          print(i);
+          if(i==1 && checkSpaceForPiece(location) == true){
+            legalMove = true;
+          }
+          else{
+            // if i!=rowindex-1 this means we need to check a space
+            if(checkSpaceForPiece(location) == false){
+              // if the space is full, exit the for loop and the move is illegal
+              break;
+            }
+          }
+        }
+      }
     }
   }
   else if(newColumnLocNum == currentColumnLocNum!+1 || newColumnLocNum == currentColumnLocNum-1){
@@ -337,3 +359,4 @@ bool checkSpaceForPiece(String location){
 
   return spaceEmpty;
 }
+
