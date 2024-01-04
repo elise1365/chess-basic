@@ -10,7 +10,7 @@ import 'endGame.dart';
 
 late Box<p2> P2box;
 late Box<p1> P1box;
-// take p1list and p2list, and apply the items inside to the below lists of rows
+// separates the info in P1box and P2box by rows on the board
 Map<int, String> row1 = {1:'',2:'',3:'',4:'',5:'',6:'',7:'', 8:''};
 Map<int, String> row2 = {1:'',2:'',3:'',4:'',5:'',6:'',7:'', 8:''};
 Map<int, String> row3 = {1:'',2:'',3:'',4:'',5:'',6:'',7:'', 8:''};
@@ -25,23 +25,28 @@ bool rebuildBoard = false;
 String inputText = '';
 bool illegalMove = false;
 String illegalMoveDescrip = '';
+
+// colour scheme
 bool lightMode = true;
 Color primaryColour = const Color(0xFF16324F);
 Color secondaryColour = const Color(0xFF7D7C7A);
 Color tertiaryColour = const Color(0xFFABA9BF);
 Color textColour = Colors.white;
+
+// used for resetting the board
 int p1NewQueenPieces = 0;
 int p2NewQueenPieces = 0;
 int piecesOwnedByP1 = 16;
 int piecesOwnedByP2 = 16;
 bool endOfGame = false;
 
+// navigation rail variables
 int _selectedIndex = 0;
 double groupAlignment = 0;
 NavigationRailLabelType labelType = NavigationRailLabelType.none;
 
 Future<void> main() async {
-  // whole bit of code below until ** is taking the data from p1pieces.csv and adding it to a list of all player 1's pieces
+  // whole bit of code below until ** is taking the data from p1pieces.csv and adding it to a box of all player 1's pieces
   WidgetsFlutterBinding.ensureInitialized(); //HIVE SETUP
   await Hive.initFlutter();   //HIVE SETUP
   Hive.registerAdapter(p2Adapter());
@@ -53,7 +58,7 @@ Future<void> main() async {
   List <String> player1pieces = fileData.split("\n");
   addItemsToP1box(player1pieces);
   // **
-  // From now until ***, this is the code used to put the p2pieces.csv file into a p2List variable
+  // From now until ***, this is the code used to put the p2pieces.csv file into P2box
   csv = "p2pieces.csv"; //path to csv file asset
   fileData = await rootBundle.loadString(csv);
   List <String> player2pieces = fileData.split("\n");
@@ -62,12 +67,14 @@ Future<void> main() async {
   piecesByRow();
   runApp (
      MaterialApp(
-        debugShowCheckedModeBanner: false, // hides the debug barrier
+       // hides the debug barrier
+        debugShowCheckedModeBanner: false,
       home: board(),
     ),
   );
 }
 
+// populates all the row variables
 void piecesByRow(){
   pieceByRow(row1, 1);
   pieceByRow(row2, 2);
@@ -79,14 +86,14 @@ void piecesByRow(){
   pieceByRow(row8, 8);
 }
 
-// chess board widget, when the 'start a new game' button is clicked, navigates to this page.
+// chess board class - first thing displayed when the program is loaded
 class board extends StatefulWidget {
-
   @override
   _BoardState createState() => _BoardState();
 }
 
 class _BoardState extends State<board> {
+  // changes the current player
   String currentPlayer(String current) {
     if (current == 'Player1') {
       current = 'Player2';
@@ -211,10 +218,10 @@ class _BoardState extends State<board> {
                 if(illegalMove == true){
                   ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(
-                      content: Text('${illegalMoveDescrip}'),
-                        duration: const Duration(milliseconds: 1500),
-                        backgroundColor: textColour,
-                      )
+                        content: Text('${illegalMoveDescrip}'),
+                          duration: const Duration(milliseconds: 1500),
+                          backgroundColor: secondaryColour,
+                        )
                   );
                   illegalMove = false;
               }
@@ -299,6 +306,7 @@ class _BoardState extends State<board> {
     );}
 }
 
+//
 void clearRows(){
   row1 = {1:'',2:'',3:'',4:'',5:'',6:'',7:'', 8:''};
   row2 = {1:'',2:'',3:'',4:'',5:'',6:'',7:'', 8:''};

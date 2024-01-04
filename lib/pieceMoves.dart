@@ -506,4 +506,3 @@ bool checkSpaceForPiece(String location){
 
   return spaceEmpty;
 }
-
