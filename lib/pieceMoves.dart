@@ -52,8 +52,13 @@ bool pawnMove(currentLocation, newLocation, bool firstMove, takingPiece, current
       if (firstMove == true) {
         if (newrowLoc == currentrowLoc - 1 ||
             newrowLoc == currentrowLoc - 2) {
-          String previousLocation = ((newrowLoc+1).toString())+newcolumnLoc;
-          if(checkSpaceForPiece(previousLocation) == true){
+          if(newrowLoc == currentrowLoc - 2){
+            String previousLocation = ((newrowLoc+1).toString())+newcolumnLoc;
+            if(checkSpaceForPiece(previousLocation) == true){
+              moveLegal = true;
+            }
+          }
+          else{
             moveLegal = true;
           }
         }
@@ -65,13 +70,18 @@ bool pawnMove(currentLocation, newLocation, bool firstMove, takingPiece, current
         }
       }
     }
-    // if player 2 is moving their piece, then the row number decreases rather than increases.
+    // if player 2 is moving their piece, then the row number increases rather than decreases.
     else{
       if (firstMove == true) {
         if (newrowLoc == currentrowLoc + 1 ||
             newrowLoc == currentrowLoc + 2) {
-          String previousLocation = ((newrowLoc-1).toString())+newcolumnLoc;
-          if(checkSpaceForPiece(previousLocation) == true){
+          if(newrowLoc == currentrowLoc + 2){
+            String previousLocation = ((newrowLoc-1).toString())+newcolumnLoc;
+            if(checkSpaceForPiece(previousLocation) == true){
+              moveLegal = true;
+            }
+          }
+          else{
             moveLegal = true;
           }
         }
@@ -367,15 +377,113 @@ bool rookMove(currentLoc, newLoc){
   bool colChange = false;
   bool rowChange = false;
 
+  List<String> columnValues = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'];
+  bool colIncreasing = false;
+  bool rowIncreasing = false;
+  int currentColAsNum = columnValues.indexOf(currentcolumnLoc);
+  int newColAsNum = columnValues.indexOf(newcolumnLoc);
+
   if(currentrowLoc != newrowLoc){
     rowChange = true;
+    // determining whether the piece is moving up or down
+    // rowIncreasing = true means the piece is moving down
+    if(currentrowLoc < newrowLoc){
+      rowIncreasing = true;
+    }
   }
   if(currentcolumnLoc != newcolumnLoc){
     colChange = true;
+    // this is in preparation for checking the path from current to new location
+    // determining whether the piece is moving left or right - colIncreasing = true means the piece is moving right
+    if(currentColAsNum < newColAsNum){
+      colIncreasing = true;
+    }
   }
 
-  if(colChange == true && rowChange == false || rowChange == true && colChange == false){
-    legalMove = true;
+  if(colChange == true && rowChange == false || rowChange == true && colChange == false) {
+    if (colChange == true) {
+      // determine whether the column is increasing or decreasing (the piece is moving left or right)
+      if (colIncreasing) {
+        int numOfColChanges = newColAsNum - currentColAsNum;
+        if (numOfColChanges == 1) {
+          legalMove = true;
+        }
+        else {
+          for (int i = 0; i < numOfColChanges - 1; i++) {
+            String location = currentrowLoc.toString() +
+                columnValues[currentColAsNum + (i + 1)];
+            if (checkSpaceForPiece(location) == true) {
+              if (i == (numOfColChanges - 2)) {
+                legalMove = true;
+              }
+            }
+            else {
+              break;
+            }
+          }
+        }
+      }
+      else {
+        int numOfColChanges = currentColAsNum - newColAsNum;
+        if (numOfColChanges == 1) {
+          legalMove = true;
+        }
+        else {
+          for (int i = 0; i < numOfColChanges - 1; i++) {
+            String location = currentrowLoc.toString() +
+                columnValues[currentColAsNum - (i + 1)];
+            if (checkSpaceForPiece(location) == true) {
+              if (i == (numOfColChanges - 2)) {
+                legalMove = true;
+              }
+            }
+            else {
+              break;
+            }
+          }
+        }
+      }
+    }
+    else {
+      if (rowIncreasing == true) {
+        int numOfRowsChanging = newrowLoc - currentrowLoc;
+        if (numOfRowsChanging == 1) {
+          legalMove = true;
+        }
+        else {
+          for (int i = 0; i < numOfRowsChanging - 1; i++) {
+            String location = (currentrowLoc + (i+1)).toString() + currentcolumnLoc;
+            if(checkSpaceForPiece(location) == true){
+              if(i == numOfRowsChanging - 2){
+                legalMove = true;
+              }
+            }
+            else{
+              break;
+            }
+          }
+        }
+      }
+      else{
+        int numOfRowsChanging = currentrowLoc - newrowLoc;
+        if (numOfRowsChanging == 1) {
+          legalMove = true;
+        }
+        else {
+          for (int i = 0; i < numOfRowsChanging - 1; i++) {
+            String location = (currentrowLoc - (i+1)).toString() + currentcolumnLoc;
+            if(checkSpaceForPiece(location) == true){
+              if(i == numOfRowsChanging - 2){
+                legalMove = true;
+              }
+            }
+            else{
+              break;
+            }
+          }
+        }
+      }
+    }
   }
   return legalMove;
 }
