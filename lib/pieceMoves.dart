@@ -11,7 +11,9 @@ bool pawnMove(currentLocation, newLocation, bool firstMove, takingPiece, current
   int currentrowLoc = int.parse(currentLocation[0]);
   int newrowLoc = int.parse(newLocation[1]);
 
+  // if the pawn is taking a piece, it moves diagonally rather than vertically
   if(takingPiece == true) {
+    // continueCheck variable indicates whether the row number has changed by 1
     bool continueCheck = false;
     // if player 1 is playing, then row number increase, player 2 row num decreases
     if (currentPlayer == 2) {
@@ -24,6 +26,7 @@ bool pawnMove(currentLocation, newLocation, bool firstMove, takingPiece, current
         continueCheck = true;
       }
     }
+    // if row has changed by 1, check if column has changed by 1
     if (continueCheck == true) {
       // for column a or h, only need to check one other column
       if (currentcolumnLoc == 'a') {
@@ -36,6 +39,7 @@ bool pawnMove(currentLocation, newLocation, bool firstMove, takingPiece, current
           moveLegal = true;
         }
       }
+      // else need to check whether new column is column on left or right compared to current location
       else {
         int index = columnValues.indexOf(currentcolumnLoc);
         if (newcolumnLoc == columnValues[index - 1] ||
@@ -63,7 +67,7 @@ bool pawnMove(currentLocation, newLocation, bool firstMove, takingPiece, current
           }
         }
       }
-      // if this isnt the pawns first move
+      // if this isnt the pawns first move, can only move forward 1 square
       else {
         if (newrowLoc == currentrowLoc - 1) {
           moveLegal = true;
@@ -94,13 +98,16 @@ bool pawnMove(currentLocation, newLocation, bool firstMove, takingPiece, current
     }
   }
 
+  // when the pawn reaches the other side of the board it automatically becomes a queen
   if(newrowLoc == 8 || newrowLoc == 1){
     // get piece name
     List <String> inputList = inputText.split(" ");
     String pieceName = inputList[0];
     String newPieceName = inputText[0] + 'Q';
 
+    // if player = 1
     if(inputText[0] == '1'){
+      // add a new queen piece to P1box
       newPieceName += columnValues[p1NewQueenPieces];
       p1NewQueenPieces += 1;
       P1box.delete(pieceName);
@@ -139,6 +146,7 @@ bool kingMove(currentLoc, newLoc){
       moveLegal = true;
     }
   }
+  // checks if the piece is moving left or right by 1 square
   if(newrowLoc == currentrowLoc && (columnValues.indexOf(currentcolumnLoc) == columnValues.indexOf(newcolumnLoc)-1 || columnValues.indexOf(currentcolumnLoc) == columnValues.indexOf(newcolumnLoc)+1)){
     moveLegal = true;
   }
@@ -168,13 +176,15 @@ bool bishopMove(currentLoc, newLoc){
   bool columnIncreasing = false;
   bool rowIncreasing = false;
 
+  // Rest of this function is checking for a clear path between current and new location
   int rowIndex = 0;
   int columnIndex = 0;
+  // if both column and row have changed, then the piece is going diagonally
   if(columnChange == true && rowChange == true){
     // translating the column names (A,B,C etc) to numbers so they can be compared easily
     int currentColAsNum = columnValues.indexOf(currentcolumnLoc);
     int newColAsNum = columnValues.indexOf(newcolumnLoc);
-    // Comparing the current and new row and column values, to create an index for each
+    // Comparing the current and new row and column values, to create an index for each - basically how many squares between current and new location
     if(currentrowLoc > newrowLoc){
       rowIndex = currentrowLoc - newrowLoc;
     }
@@ -190,7 +200,7 @@ bool bishopMove(currentLoc, newLoc){
       columnIndex = newColAsNum - currentColAsNum;
     }
 
-    // if both row and column have changed by the same value, the piece must have moved diagonal, so the move is legal
+    // if both row and column have changed by the same value, the piece must have moved diagonal, so the move is legal (as long as path is clear)
     if(rowIndex == columnIndex){
       // if player is only moving 1 space, this space has already been checked if its empty, done in checkMove, so no need to check again
       if(rowIndex == 1){
@@ -214,8 +224,8 @@ bool bishopMove(currentLoc, newLoc){
             }
           }
         }
+        // this is for pieces moving right and up
         else{
-          // this is for pieces moving right and up
           for(int i=1;i<rowIndex;i++){
             String location = (currentrowLoc -i).toString() + columnValues[currentColAsNum+i];
             if(i==rowIndex-1 && checkSpaceForPiece(location) == true){
@@ -229,6 +239,7 @@ bool bishopMove(currentLoc, newLoc){
           }
         }
       }
+      // for pieces moving left
       else{
         if(rowIncreasing == true){
           // pieces moving left and down
@@ -281,12 +292,14 @@ bool knightMove(currentLoc, newLoc){
   int? currentColumnLocNum = columnValuesMap[currentcolumnLoc];
   int? newColumnLocNum = columnValuesMap[newcolumnLoc];
 
+  // if row has changed by 1 and column has changed by 2, need to check the columns path
   if(currentrowLoc+1 == newrowLoc || currentrowLoc-1 == newrowLoc){
     if(newColumnLocNum == currentColumnLocNum!+2 || newColumnLocNum == currentColumnLocNum-2){
       // check if the path from previous location to new location is empty
       // determine if the column change was to the left or right
       if(newColumnLocNum == currentColumnLocNum-2){
-        // column change to the  left
+        // column change to the left
+        // only need to check 2 squares
         for(int i=0;i<2;i++){
           int index = currentColumnLocNum - (i+2);
           String location = currentrowLoc.toString() + columnValues[index];
@@ -318,6 +331,7 @@ bool knightMove(currentLoc, newLoc){
       }
     }
   }
+  // column changes by 1 and row changes by 2 - so need to check row path
   else if(newColumnLocNum == currentColumnLocNum!+1 || newColumnLocNum == currentColumnLocNum-1){
     if(currentrowLoc+2 == newrowLoc || currentrowLoc-2 == newrowLoc){
       if(newrowLoc == currentrowLoc-2){
@@ -354,6 +368,7 @@ bool knightMove(currentLoc, newLoc){
 }
 
 bool queenMove(currentLoc, newLoc){
+  // queen can make the same moves as bishop and rook, so just use already generated code for those pieces
   bool moveLegal = false;
   bool rook = false;
   bool bishop = false;
@@ -400,11 +415,13 @@ bool rookMove(currentLoc, newLoc){
     }
   }
 
+  // checking that the path is clear
   if(colChange == true && rowChange == false || rowChange == true && colChange == false) {
     if (colChange == true) {
       // determine whether the column is increasing or decreasing (the piece is moving left or right)
       if (colIncreasing) {
         int numOfColChanges = newColAsNum - currentColAsNum;
+        // if the piece is only moving 1 piece, no need to check the path as the new location has already been checked.
         if (numOfColChanges == 1) {
           legalMove = true;
         }

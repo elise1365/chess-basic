@@ -306,7 +306,7 @@ class _BoardState extends State<board> {
     );}
 }
 
-//
+// clears all the row variables - used when resetting the board
 void clearRows(){
   row1 = {1:'',2:'',3:'',4:'',5:'',6:'',7:'', 8:''};
   row2 = {1:'',2:'',3:'',4:'',5:'',6:'',7:'', 8:''};
@@ -318,11 +318,13 @@ void clearRows(){
   row8 = {1:'',2:'',3:'',4:'',5:'',6:'',7:'', 8:''};
 }
 
+// builds the chess board - called when the program first loads, then whenever a move is made.
 Widget buildChessBoard(){
   return Column(
     children: [
       Row(
         mainAxisAlignment: MainAxisAlignment.center,
+        // prints the column letters above each column
         children: List.generate(8, (index) => columnGuide(index)),
       ),
       createRowOfContainers(0),
@@ -337,6 +339,7 @@ Widget buildChessBoard(){
   );
 }
 
+// generates each row of containers, using the info from the row variables
 Widget createRowOfContainers(int row) {
   return Row(
     mainAxisAlignment: MainAxisAlignment.center,
@@ -348,6 +351,7 @@ Widget createRowOfContainers(int row) {
 }
 
 Widget createContainer(column, row) {
+  // board has alternating colours
   Color currentColour = Colors.grey;
   if(row % 2 == 0){
     if(column % 2 == 0){
@@ -361,7 +365,9 @@ Widget createContainer(column, row) {
       currentColour = Colors.brown;
     }
   }
+  // determines the text for the container
   String cellText = determiningText(row, column);
+  // creates a container containing the cellText and the correct colour
   return Container(
       margin: EdgeInsets.zero,
       padding: EdgeInsets.zero,
@@ -383,6 +389,7 @@ Widget createContainer(column, row) {
       ));
 }
 
+// used by the navigation rail - selecting the icons changes the page between the board page and the help page.
 Widget _getPage(int index, BuildContext context){
   if (index case 0) {
     Navigator.push(
@@ -405,8 +412,8 @@ Widget _getPage(int index, BuildContext context){
   }
 }
 
+// creates the rules page
 class rules extends StatefulWidget {
-
   @override
   _rulesState createState() => _rulesState();
 }
@@ -421,6 +428,7 @@ class _rulesState extends State<rules> {
             Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                // navigation rail
                 Row(
                     children: <Widget> [NavigationRail(
                         selectedIndex: _selectedIndex,
@@ -447,6 +455,7 @@ class _rulesState extends State<rules> {
                         ]),
                     ]
                 ),
+                // first block of text
                 Align(
                   alignment: Alignment.centerLeft,
                   child: Padding(
@@ -473,12 +482,14 @@ class _rulesState extends State<rules> {
                 ),
               ],
             ),
+          // middle section of the page - title and middle text block
           Row(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
+                  // page title
                   Align(
                     alignment: Alignment.topCenter,
                     child: Padding(
@@ -501,6 +512,7 @@ class _rulesState extends State<rules> {
                       ),
                     ),
                   ),
+                  // second block of text
                   Align(
                     alignment: Alignment.center,
                     child: Padding(
@@ -532,6 +544,7 @@ class _rulesState extends State<rules> {
               ),
               ]
           ),
+      // end section of text
       Row(
         crossAxisAlignment: CrossAxisAlignment.end,
         children: [
@@ -548,7 +561,7 @@ class _rulesState extends State<rules> {
                 padding: EdgeInsets.all(16.0),
                 child: Text(
                       "The aim of the game is to take the other players king.\n"
-                      "This sversion of the game does not check if a player is in check, so players need to keep their eye on their king at all times.\n"
+                      "This version of the game does not check if a player is in check, so players need to keep their eye on their king at all times.\n"
                       "This game also does not allow en passant to work, or castling to work.\n"
                       "However, the pawn pieces can move forward 2 squares during their first move.\n",
                   style: TextStyle(
@@ -586,6 +599,7 @@ Map<int, String> pieceByRow(Map<int, String>row, int RowNum){
   return row;
 }
 
+// coverts the column letter to number
 int convertColumnToNum(location){
   List<String> columnNames = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'];
   int colAsNum = 0;
@@ -600,6 +614,7 @@ int convertColumnToNum(location){
   return colAsNum;
 }
 
+// find the piece and displays it for each container - based on the current column and row
 String determiningText(row, column){
   String text = '';
   if(row == 0){
@@ -678,6 +693,7 @@ Color determineTextColour(String cellText){
   return textColour;
 }
 
+// switches the colour scheme from light mode to dark mode
 void changeColourScheme(){
   if(lightMode == true){
     primaryColour = const Color(0xFF5299D3);
@@ -693,6 +709,7 @@ void changeColourScheme(){
   }
 }
 
+// creates the column guide - displays the name of each column on the board.
 class columnGuide extends StatelessWidget {
   final int index;
   List<String> columnNames = ['        A        ', '        B        ', '        C        ', '        D        ', '        E        ', '        F        ', '        G        ', '        H        '];
@@ -711,6 +728,7 @@ class columnGuide extends StatelessWidget {
   }
 }
 
+// creates a row guide - displays the row number by each row on the board
 class rowGuide extends StatelessWidget {
   final int index;
   List<String> rowNames = ['\n\n\n\n1\n\n', '\n\n2\n', '\n\n3\n', '\n\n4\n', '\n\n5\n', '\n\n6\n', '\n\n7\n', '\n\n8\n'];
@@ -730,6 +748,7 @@ class rowGuide extends StatelessWidget {
   }
 }
 
+// deals with the end of the game - displays an alertDialog (popup box) to state which player has won.
 Future<void> endOfGameDialog(BuildContext context) async {
   return showDialog<void>(
     context: context,
@@ -737,7 +756,7 @@ Future<void> endOfGameDialog(BuildContext context) async {
     builder: (BuildContext context) {
       return AlertDialog(
         title: const Text('The game has ended'),
-        content: Text('Player ${player[player.length-1]} has won! Congratualations!!!'),
+        content: Text('Player ${player[player.length-1]} has won! Congratulations!!!'),
         actions: <Widget>[
           TextButton(
             child: const Text('Close'),
