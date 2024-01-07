@@ -122,11 +122,7 @@ bool movePiece() {
   return illegalMove;
 }
 
-String findCurrentLoc(){
-  String currentLoc = '';
-  return currentLoc;
-}
-
+// checks that the correct players piece is being moved, the location exists, the move can be made by the piece, the piece exists and the new location does not already contain a piece
 bool checkMove(takingPiece, currentPlayer, firstMove, currentLoc, pieceName){
   bool correctPlayer = false;
   bool legalMove = false;
