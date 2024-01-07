@@ -8,7 +8,7 @@ Players take turns to enter a piece name and location (e.g., 1Pa e4) into a text
 
 # To install and run this project
 1. Clone the repository
-2. Navigate to the main.dart file - "cd chess-basic" => "cd chess"
+2. Navigate to the chess file - "cd chess-basic" => "cd chess"
 3. Run this command "flutter run -d chrome"
 
 # Further information
