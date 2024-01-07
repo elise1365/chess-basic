@@ -18,6 +18,7 @@ Features:
   - Light mode and dark mode toggle switch,
   - Navigation rail with icons to navigate between a help & rules page and the main chess board page
   - Reset button so that the game can be reset anytime
+  - Program utilises hive database - one database for each players pieces & locations.
 
 
 Due to time limits, the project has the following limitations:
@@ -26,3 +27,4 @@ Due to time limits, the project has the following limitations:
   - Castling doesn't exist
   - The program doesn't let you know when you're in check
   - Pawns are automatically assigned as queens when they reach the other side of the board
+  - Typing in a piece name and location isn't the most efficient way to play chess, drag and drop would be preferable, but due to time constraints this wasn't possible.
