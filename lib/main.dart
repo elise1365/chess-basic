@@ -141,7 +141,7 @@ class _BoardState extends State<board> {
                 ),
                 activeColor: Color(0xFF16324F),
                 activeTrackColor: Colors.white,
-                inactiveThumbColor: Color(0xFF5299D3),
+                inactiveThumbColor: Color(0xFFF3FFB9),
                 inactiveTrackColor: Colors.black,
               ),
             ),
@@ -696,9 +696,9 @@ Color determineTextColour(String cellText){
 // switches the colour scheme from light mode to dark mode
 void changeColourScheme(){
   if(lightMode == true){
-    primaryColour = const Color(0xFF5299D3);
-    secondaryColour = const Color(0xFF6279B8);
-    tertiaryColour = const Color(0xFF533747);
+    primaryColour = const Color(0xFFF3FFB9);
+    secondaryColour = const Color(0xFF948CBA);
+    tertiaryColour = const Color(0xFF82A7A6);
     textColour = Colors.black;
   }
   else{
@@ -712,7 +712,7 @@ void changeColourScheme(){
 // creates the column guide - displays the name of each column on the board.
 class columnGuide extends StatelessWidget {
   final int index;
-  List<String> columnNames = ['        A        ', '        B        ', '        C        ', '        D        ', '        E        ', '        F        ', '        G        ', '        H        '];
+  List<String> columnNames = ['        a        ', '        b        ', '        c        ', '        d        ', '        e        ', '        f        ', '        g        ', '        h        '];
   columnGuide(this.index);
 
   @override
