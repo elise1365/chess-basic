@@ -2,7 +2,7 @@
 
 Basic 2 player chess game programmed in flutter & dart.
 
-Displays a chess board with all the piece id names e.g., 1Pa means player 1's pawn A.
+Displays a 8x8 chess board with all the piece id names e.g., 1Pa means player 1's pawn A.
 
 Players take turns to enter a piece name and location (e.g., 1Pa e4) into a textField and the program checks the move, and (if its legal) moves the piece. 
 
@@ -15,10 +15,12 @@ Players take turns to enter a piece name and location (e.g., 1Pa e4) into a text
 
 Features: 
 
-  - Light mode and dark mode toggle switch,
+  - Light mode and dark mode toggle switch
   - Navigation rail with icons to navigate between a help & rules page and the main chess board page
   - Reset button so that the game can be reset anytime
-  - Program utilises hive database - one database per player, stores pieces, first move & locations.
+  - Text field for users to enter moves and check button to check each entered move
+  - Text displaying the number of pieces each player owns, and text displaying which player is currently playing
+  - Program utilises hive database - one database per player, stores pieces, first move & locations
 
 
 Due to time constraints, the project has the following limitations:
