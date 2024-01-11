@@ -166,7 +166,7 @@ class _BoardState extends State<board> {
                 child: Align(
                   alignment: Alignment.centerRight,
                   child: Container(
-                    width: 200, // Adjust the width as needed
+                    width: 200, 
                     child: TextField(
                       onChanged: (value) {
                         setState(() {
@@ -697,8 +697,8 @@ Color determineTextColour(String cellText){
 void changeColourScheme(){
   if(lightMode == true){
     primaryColour = const Color(0xFFF3FFB9);
-    secondaryColour = const Color(0xFF948CBA);
-    tertiaryColour = const Color(0xFF82A7A6);
+    secondaryColour = const Color(0xFF82A7A6);
+    tertiaryColour = const Color(0xFF6F584B);
     textColour = Colors.black;
   }
   else{
