@@ -218,7 +218,9 @@ class _BoardState extends State<board> {
                 if(illegalMove == true){
                   ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(
-                        content: Text('${illegalMoveDescrip}'),
+                        content: Text('${illegalMoveDescrip}', style: TextStyle(
+                          color: textColour,
+                        ),),
                           duration: const Duration(milliseconds: 1500),
                           backgroundColor: secondaryColour,
                         )
@@ -228,11 +230,19 @@ class _BoardState extends State<board> {
                 if (rebuildBoard == true) {
                   if(endOfGame == true){
                     endOfGameDialog(context);
+                    endOfGame = false;
+                    {setState(() {
+                      // Call the reset function here
+                      resetVariables();
+                      player = 'Player1';
+                    });}
+                  }
+                  else{
+                    player = currentPlayer(player);
                   }
                   clearRows();
                   piecesByRow();
                   board();
-                  player = currentPlayer(player);
                   rebuildBoard = false;
                 }
               });},
@@ -756,7 +766,7 @@ Future<void> endOfGameDialog(BuildContext context) async {
     builder: (BuildContext context) {
       return AlertDialog(
         title: const Text('The game has ended'),
-        content: Text('Player ${player[player.length-1]} has won! Congratulations!!!'),
+        content: Text('Player ${determineWinner()} has won! Congratulations!!!'),
         actions: <Widget>[
           TextButton(
             child: const Text('Close'),
@@ -768,4 +778,13 @@ Future<void> endOfGameDialog(BuildContext context) async {
       );
     },
   );
+}
+
+int determineWinner(){
+  if(player[player.length-1] == '1'){
+    return 2;
+  }
+  else{
+    return 1;
+  }
 }

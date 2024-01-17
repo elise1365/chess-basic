@@ -292,76 +292,19 @@ bool knightMove(currentLoc, newLoc){
   int? currentColumnLocNum = columnValuesMap[currentcolumnLoc];
   int? newColumnLocNum = columnValuesMap[newcolumnLoc];
 
-  // if row has changed by 1 and column has changed by 2, need to check the columns path
+  bool columnChangeBy1 = false;
+  bool rowChangeBy1 = false;
+
+  // no need to check that the path between current and new location is clear because knights can jump over pieces
+
   if(currentrowLoc+1 == newrowLoc || currentrowLoc-1 == newrowLoc){
     if(newColumnLocNum == currentColumnLocNum!+2 || newColumnLocNum == currentColumnLocNum-2){
-      // check if the path from previous location to new location is empty
-      // determine if the column change was to the left or right
-      if(newColumnLocNum == currentColumnLocNum-2){
-        // column change to the left
-        // only need to check 2 squares
-        for(int i=0;i<2;i++){
-          int index = currentColumnLocNum - (i+2);
-          String location = currentrowLoc.toString() + columnValues[index];
-          if(i==1 && checkSpaceForPiece(location) == true){
-            legalMove = true;
-          }
-          else{
-            if(checkSpaceForPiece(location) == false){
-              break;
-            }
-          }
-        }
-      }
-      else{
-        // column change to the right
-        for(int i=0;i<2;i++){
-          int index = currentColumnLocNum + i;
-          print(index);
-          String location = currentrowLoc.toString() + columnValues[index];
-          if(i==1 && checkSpaceForPiece(location) == true){
-            legalMove = true;
-          }
-          else{
-            if(checkSpaceForPiece(location) == false){
-              break;
-            }
-          }
-        }
-      }
+      legalMove = true;
     }
   }
-  // column changes by 1 and row changes by 2 - so need to check row path
   else if(newColumnLocNum == currentColumnLocNum!+1 || newColumnLocNum == currentColumnLocNum-1){
     if(currentrowLoc+2 == newrowLoc || currentrowLoc-2 == newrowLoc){
-      if(newrowLoc == currentrowLoc-2){
-        // column change to the  left
-        for(int i=0;i<2;i++){
-          String location = (currentrowLoc-(i+1)).toString() + currentcolumnLoc;
-          if(i==1 && checkSpaceForPiece(location) == true){
-            legalMove = true;
-          }
-          else{
-            if(checkSpaceForPiece(location) == false){
-              break;
-            }
-          }
-        }
-      }
-      else{
-        // column change to the right
-        for(int i=0;i<2;i++){
-          String location = (currentrowLoc+(i+1)).toString() + currentcolumnLoc;
-          if(i==1 && checkSpaceForPiece(location) == true){
-            legalMove = true;
-          }
-          else{
-            if(checkSpaceForPiece(location) == false){
-              break;
-            }
-          }
-        }
-      }
+      legalMove = true;
     }
   }
   return legalMove;
