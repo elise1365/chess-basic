@@ -6,12 +6,12 @@ Displays a 8x8 chess board with all the piece id names e.g., 1Pa means player 1'
 
 Players take turns to enter a piece name and location (e.g., 1Pa e4) into a textField and the program checks the move, and (if its legal) moves the piece. 
 
-# To install and run this project
+## To install and run this project
 1. Clone the repository
 2. Navigate to the chess file - "cd chess-basic" => "cd chess"
 3. Run this: "flutter run -d chrome"
 
-# Further info
+## Further info
 
 Features: 
 
